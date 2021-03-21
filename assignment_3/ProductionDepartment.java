@@ -1,20 +1,37 @@
 public class ProductionDepartment implements Employee {
 
-    @Override
+    private boolean isEnrolled;
+    private String empName;
+    private int age;
+    private final int payScale = 1200;//Here I'm considering this on daily basis
+
+    public ProductionDepartment(String empName, int age) {
+        this.empName = empName;
+        this.age = age;
+    }
+
     public void enroll() {
-        //
-        
+        this.isEnrolled = true;
+        System.out.println("Employee: "+this.empName+" : enrolled successfully in production department.");
     }
 
-    @Override
     public void terminate() {
-        //
-        
+        if(this.isEnrolled) {
+            this.isEnrolled = false;
+            System.out.println("Employee: " + this.empName + " : terminated successfully from production department.");
+        } else {
+            System.out.println("enroll an employee before terminating...");
+        }
     }
 
-    @Override
     public double calculatePay() {
-        return 0;
+        if (this.isEnrolled) {
+            //suppose employee worked for 30 days
+            return this.payScale * 30;
+        } else {
+            System.out.println("enroll an employee before calculating pay...");
+            return 0;
+        }
     }
     
 }
