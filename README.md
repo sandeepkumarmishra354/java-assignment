@@ -4,7 +4,7 @@
 
 Go to the directory of assignment.
 
-``cd assignment_1/2/3``
+``cd assignment_1/2/3...``
 
 Run--
 
