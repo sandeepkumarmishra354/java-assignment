@@ -3,7 +3,7 @@ public class App {
         try {
             BookARide ride = new BookARide();
             //this will throw exception if argument's value exceeds 4
-            ride.bookSeat(2);
+            ride.bookSeat(5);
         } catch (Exception e) {
             e.printStackTrace();
         }
