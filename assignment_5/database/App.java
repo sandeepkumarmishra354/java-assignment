@@ -15,7 +15,7 @@ public class App {
             crStatement.execute(create_query);
             crStatement.close();
             // insert new items.
-            addNewItems();
+            //addNewItems();
             readItems();
         } catch (Exception e) {
             e.printStackTrace();
