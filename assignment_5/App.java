@@ -8,21 +8,23 @@ public class App {
         try {
             databaseManager = new MyDatabaseManager();
             databaseManager.connect();
-            // create a new table Item if table not exists.
-            final String create_query = "CREATE TABLE IF NOT EXISTS Item"
-                    + "(id INTEGER NOT NULL AUTO_INCREMENT, description TEXT(300), quantity INTEGER, price INTEGER, PRIMARY KEY (id))";
-            Statement crStatement = databaseManager.getStatement();
-            crStatement.execute(create_query);
-            crStatement.close();
-            // insert new items.
-            //addNewItems();
-            readItems();
+            // createTable();
+            // addNewItems();
+            // readItems();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (databaseManager != null)
                 databaseManager.close();
         }
+    }
+
+    private static void createTable() throws Exception {
+        final String create_query = "CREATE TABLE IF NOT EXISTS Item"
+                + "(id INTEGER NOT NULL AUTO_INCREMENT, description TEXT(300), quantity INTEGER, price INTEGER, PRIMARY KEY (id))";
+        Statement crStatement = databaseManager.getStatement();
+        crStatement.execute(create_query);
+        crStatement.close();
     }
 
     private static void addNewItems() throws Exception {
@@ -40,8 +42,8 @@ public class App {
         // read item by given id
         for (int i = 1; i <= 10; i++) {
             MyItem item = databaseManager.getItem(i);
-            if(item != null)
-                System.out.println(item.getFormattedData()+"\n------------");
+            if (item != null)
+                System.out.println(item.getFormattedData() + "\n------------");
         }
     }
 }
