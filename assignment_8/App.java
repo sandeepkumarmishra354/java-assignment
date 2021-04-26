@@ -1,56 +1,37 @@
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
+
+    private List<Account> accounts = new ArrayList<Account>();
+
     public static void main(String args[]) {
-        try {
-            final MyDatabaseManager db = new MyDatabaseManager();
-            final App app = new App();
-            db.connect();
-            // app.dropTable(db);
-            app.createTable(db);
-            app.insertAccounts(db);
-            app.printWhereBalanceMoreThan(db, 10000);
-        } catch (Exception excp) {
-            excp.printStackTrace();
-        }
-    }
-
-    private void createTable(MyDatabaseManager db) throws Exception {
-        final String create_query = "CREATE TABLE IF NOT EXISTS Account"
-                + "(id INTEGER NOT NULL AUTO_INCREMENT, accountNumber BIGINT, balance DOUBLE, accountType TEXT,name TEXT, PRIMARY KEY (id))";
-        Statement crStatement = db.getStatement();
-        crStatement.execute(create_query);
-        crStatement.close();
-    }
-
-    private void dropTable(MyDatabaseManager db) throws Exception {
-        Statement crStatement = db.getStatement();
-        crStatement.execute("DROP TABLE IF EXISTS Account");
-        crStatement.close();
+        final App app = new App();
+        app.insertAccounts();
+        app.printWhereBalanceMoreThan(10000);
     }
 
     // insert 10 records to database
-    private void insertAccounts(MyDatabaseManager db) throws Exception {
+    private void insertAccounts() {
         for (int i = 1; i <= 10; i++) {
             long accNo = 12153 * i;
             double balance = 1945.55 * i;
             String accHolder = "Account holder: " + i;
             String accType = (i % 2 == 0) ? "saving" : "current";
             Account account = new Account(accNo, balance, accType, accHolder);
-            db.insertItem(account);
+            this.accounts.add(account);
         }
     }
 
     // insert 10 records to database
-    private void printWhereBalanceMoreThan(MyDatabaseManager db, double balance) throws Exception {
-        ResultSet result = db.getWhereBalanceMoreThan(balance);
-        while (result.next()) {
-            Account account = new Account(result);
-            System.out.println(String.format("acc no: %d\nname: %s\nacc type: %s\nbalance: %f\n",
-                    account.getAccountNumber(), account.getName(), account.getAccountType(), account.getBalance()));
+    private void printWhereBalanceMoreThan(double balance) {
+        for (int i=0; i<this.accounts.size(); i++) {
+            Account account = this.accounts.get(i);
+            if(account.getBalance() > balance) {
+                String message = String.format("name: %s\nacc no: %d\nbalance: %f\ntype: %s\n", account.getName(),
+                        account.getAccountNumber(), account.getBalance(), account.getAccountType());
+                System.out.println(message);
+            }
         }
-        result.getStatement().close();
-        result.close();
     }
 }
