@@ -23,7 +23,6 @@ public class App {
         }
     }
 
-    // insert 10 records to database
     private void printWhereBalanceMoreThan(double balance) {
         for (int i=0; i<this.accounts.size(); i++) {
             Account account = this.accounts.get(i);
